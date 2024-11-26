@@ -61,3 +61,33 @@ app.on("ready", function() {
     });
 });
 
+const express = require('express')
+const path = require('node:path');
+const server = express()
+const PORT = process.env.PORT || 30000;
+
+const jsonErrorHandler = (err, req, res, next) => {
+    res.status(500).send({ error: err });
+}
+
+server.use(express.json());
+server.use(jsonErrorHandler)
+
+// localhost:30000/status
+server.get('/status', function (req, res) {
+    res.sendStatus(200)
+})
+
+// curl --json '{ \"file_path\": \"D:/repos/FastWave2.0/test_files/sv39_mmu_cache_sim/fst/konata.log\" }' http://localhost:30000/open-konata-file
+server.post('/open-konata-file', function (req, res) {
+    const file_path = path.normalize(req.body.file_path).replace(/\\/g, "/");
+    console.log(`Opening file '${file_path}'`);
+    m_window.webContents.executeJavaScript(`dispatcher.trigger(ACTION.FILE_OPEN, "${file_path}");`);
+    res.send(`Request to open Konata file '${file_path}' has been processed.`)
+})
+
+server.listen(PORT, function (err) {
+    if (err) console.log(err);
+    console.log("Konata server listening on PORT", PORT);
+});
+

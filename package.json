@@ -15,11 +15,12 @@
   },
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@electron/remote": "^2.0.8",
     "bootstrap": "^4.6.0",
+    "express": "^4.21.1",
     "jquery": "^3.6.0",
     "riot": "^3.13.2",
-    "riotcontrol": "^0.0.3",
-    "@electron/remote": "^2.0.8"
+    "riotcontrol": "^0.0.3"
   },
   "devDependencies": {
     "electron": "^23.0.0",
